@@ -1,0 +1,11 @@
+.idea
+.vscode
+.eslintcache
+node_modules
+coverage
+.cache
+schema.graphql
+generated/
+dist/
+.env
+.vercel

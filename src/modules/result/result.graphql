@@ -1,0 +1,26 @@
+extend type Mutation{
+    saveResult(saveResultInput: SaveResultInput!):Boolean!
+}
+
+extend type Query{
+    getChallengeResult(challengeId:ID!):Result
+}
+
+type Result {
+    score: Int!
+    outcome: OutcomeType!
+    basedOnTime: Boolean!
+}
+
+enum OutcomeType {
+    WIN,
+    LOST,
+    DRAW
+}
+
+
+input SaveResultInput {
+    challengeId:ID!
+    totalScore: Int!
+    totalRemainingTime: Int!
+}

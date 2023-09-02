@@ -1,0 +1,185 @@
+type Mutation {
+  signup(input: SignupUserInput!): AuthPayload
+  updateUser(input: UpdateUserInput!): User
+  logout: Boolean!
+  sendChallenge(input: SendChallengeInput!): Boolean!
+  updateChallenge(challengeId: ID!, status: ChallengeStatus!): Boolean!
+  startOneVOneChallenge(input: StartOneVOneChallengeInput!): ID
+  saveResult(saveResultInput: SaveResultInput!): Boolean!
+}
+
+input SignupUserInput {
+  email: String!
+  password: String!
+  name: String!
+  mobileNumber: String
+}
+
+input UpdateUserInput {
+  mobileNumber: String!
+}
+
+type Query {
+  login(input: LoginUserInput!): AuthPayload!
+  currentUser: User
+  getAnotherLoggedInUser: User
+  getAllOtherLoggedInUsers: [User!]!
+  getUserInfo(userId: ID!): User
+  challenges: [Challenge!]!
+  questionIdsForChallenge(challengeId: ID!): [String!]!
+  isChallengeActive(challengeId: ID!): Boolean!
+  isChallengeAccepted(challengeId: ID!, challengedUserUuid: ID!): ChallengeStatus!
+  questions(subtopicId: ID!): [Question]!
+  getQuestion(questionId: ID!): Question!
+  getChallengeResult(challengeId: ID!): Result
+  mainTopics: [MainTopic!]!
+  subtopics(topicId: ID!): [Subtopic!]!
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+type AuthPayload {
+  token: String!
+  uuid: ID!
+  code: Int
+  message: String
+  name: String
+}
+
+type User {
+  uuid: ID!
+  name: String!
+  email: String!
+  mobileNumber: String
+  isLoggedIn: Boolean!
+  stars: Int!
+  score: Int!
+}
+
+input SendChallengeInput {
+  name: String!
+  email: String!
+  questionIds: [String!]!
+}
+
+type Challenge {
+  uuid: ID!
+  userUuid: ID!
+  questionIds: [String!]!
+  title: String!
+  type: ChallengeType!
+  status: ChallengeStatus!
+}
+
+enum ChallengeType {
+  SENT
+  RECEIVED
+  OneVOne
+}
+
+enum ChallengeStatus {
+  STARTED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+  PENDING
+}
+
+input StartOneVOneChallengeInput {
+  toUserUuid: ID!
+}
+
+type Question {
+  uuid: ID!
+  title: String!
+  choices: [Choice!]!
+  weight: Int!
+}
+
+type Choice {
+  uuid: ID!
+  title: String!
+  isCorrect: Boolean!
+}
+
+type Result {
+  score: Int!
+  outcome: OutcomeType!
+  basedOnTime: Boolean!
+}
+
+enum OutcomeType {
+  WIN
+  LOST
+  DRAW
+}
+
+input SaveResultInput {
+  challengeId: ID!
+  totalScore: Int!
+  totalRemainingTime: Int!
+}
+
+interface Topic {
+  uuid: ID!
+  name: String!
+}
+
+type MainTopic implements Topic {
+  uuid: ID!
+  name: String!
+  description: String!
+  type: TopicType!
+}
+
+type Subtopic implements Topic {
+  uuid: ID!
+  topicId: ID!
+  name: String!
+  difficulty: DifficultyLevel!
+  description: String!
+  type: TopicType!
+}
+
+enum TopicType {
+  MAIN_TOPIC
+  SUB_TOPIC
+}
+
+enum DifficultyLevel {
+  EASY
+  MEDIUM
+  HARD
+}
+
+directive @entity(embedded: Boolean) on OBJECT
+
+directive @chimp(embedded: Boolean) on OBJECT
+
+directive @column(overrideType: String) on FIELD_DEFINITION
+
+directive @id on FIELD_DEFINITION
+
+directive @computed on FIELD_DEFINITION
+
+directive @link(overrideType: String) on FIELD_DEFINITION
+
+directive @embedded on FIELD_DEFINITION
+
+directive @map(path: String!) on FIELD_DEFINITION
+
+directive @union(discriminatorField: String) on UNION
+
+input AdditionalEntityFields {
+  path: String
+  type: String
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+

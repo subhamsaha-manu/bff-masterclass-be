@@ -1,0 +1,46 @@
+extend type Query{
+    challenges:[Challenge!]!
+    questionIdsForChallenge(challengeId: ID!):[String!]!
+    isChallengeActive(challengeId: ID!): Boolean!
+    isChallengeAccepted(challengeId: ID!,challengedUserUuid:ID!):ChallengeStatus!
+}
+
+extend type Mutation{
+    sendChallenge(input: SendChallengeInput!):Boolean!
+    updateChallenge(challengeId: ID!, status: ChallengeStatus!):Boolean!
+    startOneVOneChallenge(input: StartOneVOneChallengeInput!):ID
+}
+
+input SendChallengeInput {
+    name: String!
+    email: String!
+    questionIds: [String!]!
+}
+
+type Challenge {
+    uuid: ID!
+    userUuid:ID!
+    questionIds: [String!]!
+    title: String!
+    type: ChallengeType!
+    status: ChallengeStatus!
+}
+
+enum ChallengeType{
+    SENT,
+    RECEIVED,
+    OneVOne
+}
+
+enum ChallengeStatus{
+    STARTED,
+    ACTIVE,
+    COMPLETED,
+    CANCELLED,
+    PENDING
+}
+
+input StartOneVOneChallengeInput{
+    toUserUuid: ID!
+}
+
