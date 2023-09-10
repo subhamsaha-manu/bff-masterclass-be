@@ -1,0 +1,11 @@
+extend type Query {
+    activitiesInClass(classId: ID!): [Activity!]!
+}
+
+type Activity {
+    uuid: ID!
+    name: String!
+    description: String!
+    completionPercentage: Int! @computed
+    classId: String!
+}
