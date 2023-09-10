@@ -1,6 +1,4 @@
-/* eslint-disable import/first */
-import { ChallengeData, sendEvent, setChallengeData } from '~app/util/sendEvent'
-import express, { Request, Response } from 'express'
+import express from 'express'
 import { client } from '~app/database/connect'
 import { buildRequestContext, graphqlRoute } from '~app/core/routes/graphql-route'
 import cors from 'cors'
@@ -8,8 +6,6 @@ import { schema } from '~generated/graphql/schema'
 import { ApolloServer } from 'apollo-server-express'
 import { dataSources } from '~app/dataSources'
 import { logger } from './winston.config'
-
-require('newrelic')
 
 const app = express()
 const router = express.Router()
@@ -45,21 +41,6 @@ app.get('/', (req, res) => {
   logger.info('Here at / mapping')
   res.send('GET request to the homepage')
 })
-
-// ################################################
-
-app.get('/startOneVOneChallenge', (req: Request, res: Response) => {
-  if (req.headers.accept === 'text/event-stream') {
-    sendEvent(req, res)
-  } else {
-    res.json({ message: 'Ok' })
-  }
-})
-app.post('/updateOneVOneChallenge', (req: Request, res: Response) => {
-  console.log('/updateOneVOneChallenge')
-  setChallengeData({} as ChallengeData)
-})
-// ################################################
 
 app.use('/', router)
 app.use('/graphql', graphqlRoute)

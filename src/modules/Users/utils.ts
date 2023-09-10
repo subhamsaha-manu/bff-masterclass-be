@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 
-export const APP_SECRET = 'BIRTHDAY_REMINDER'
+export const APP_SECRET = 'BFF_MASTERCLASS'
 
 const getTokenPayload = (token: string) => {
   try {
@@ -10,23 +10,13 @@ const getTokenPayload = (token: string) => {
   }
 }
 
-export const getUserUuidFromJWTToken = (accessToken: string) => {
+export const getUserUuidFromJWT = (accessToken: string) => {
   try {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // eslint-disable-next-line
     // @ts-ignore
     const { userUuid } = getTokenPayload(accessToken)
     return userUuid
   } catch (err) {
     throw new Error(err.message)
   }
-}
-export type UserInput = {
-  name: string
-  email: string
-  password: string
-  mobileNumber?: string | undefined | null
-}
-
-export type UpdateUserInput = {
-  mobileNumber: string
 }

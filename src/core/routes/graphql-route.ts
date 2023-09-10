@@ -1,5 +1,5 @@
 import { Request } from 'express-serve-static-core'
-import { getUserUuidFromJWTToken } from '~app/modules/Users/utils'
+import { getUserUuidFromJWT } from '~app/modules/Users/utils'
 import express from 'express'
 
 type RequestContext = {
@@ -14,7 +14,7 @@ export const buildRequestContext: buildRequestContextType = ({ req }) => {
   if (req.headers.authorization && req.headers.authorization.indexOf('null') < 0) {
     const accessToken = req.headers.authorization.split(' ')[1]
     try {
-      userUuid = getUserUuidFromJWTToken(accessToken)
+      userUuid = getUserUuidFromJWT(accessToken)
     } catch (error) {
       throw new Error(error.message)
     }

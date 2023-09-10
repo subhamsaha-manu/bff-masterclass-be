@@ -1,26 +1,6 @@
-extend type Mutation {
-    signup(input: SignupUserInput!): AuthPayload
-    updateUser(input: UpdateUserInput!): User
-    logout:Boolean!
-}
-
-input SignupUserInput {
-    email: String!
-    password: String!
-    name: String!
-    mobileNumber: String
-}
-
-input UpdateUserInput{
-    mobileNumber: String!
-}
-
 extend type Query {
     login(input: LoginUserInput!): AuthPayload!
     currentUser: User
-    getAnotherLoggedInUser: User
-    getAllOtherLoggedInUsers: [User!]!
-    getUserInfo(userId: ID!):User
 }
 
 input LoginUserInput {
@@ -40,9 +20,5 @@ type User {
     uuid: ID!
     name: String!
     email: String!
-    mobileNumber: String
-    isLoggedIn: Boolean!
-    stars: Int!
-    score: Int!
 }
 

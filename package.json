@@ -1,6 +1,6 @@
 {
-  "name": "quiz-app-backend",
-  "version": "2.0.0",
+  "name": "bff-masterclass-backend",
+  "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
     "build": "tsc && copyfiles tsconfig.json dist && copyfiles *.graphql dist && copyfiles \"src/**/*.graphql\" dist && copyfiles \"generated/**/*.graphql\" dist",
