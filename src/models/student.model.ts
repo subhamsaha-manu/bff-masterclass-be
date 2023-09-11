@@ -1,9 +1,15 @@
 import * as mongoose from 'mongoose'
 import { Schema } from 'mongoose'
 
-interface StudentActivity {
+enum ActivityStatus {
+  Completed = 'COMPLETED',
+  Locked = 'LOCKED',
+  Unlocked = 'UNLOCKED'
+}
+
+export interface StudentActivity {
   uuid: string
-  isCompleted: boolean
+  status: ActivityStatus
 }
 
 export interface IStudent {
@@ -17,8 +23,8 @@ const studentSchema = new Schema<IStudent>({
   name: { type: String, required: true },
   activities: [
     {
-      uuid: { type: String, required: true },
-      isCompleted: { type: Boolean, required: true }
+      uuid: { type: String, required: true, enum: ['COMPLETED', 'LOCKED', 'UNLOCKED'] },
+      status: { type: String, required: true }
     }
   ]
 })

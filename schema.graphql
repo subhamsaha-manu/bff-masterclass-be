@@ -32,15 +32,31 @@ type Activity {
   classId: String!
 }
 
+type Mutation {
+  lockUnlockActivity(lockUnlockActivityInput: LockUnlockActivityInput!): Boolean!
+}
+
 type StudentActivity {
   uuid: ID!
-  isCompleted: Boolean!
+  status: ActivityStatus!
 }
 
 type Student {
   uuid: ID!
   name: String!
   activities: [StudentActivity!]!
+}
+
+enum ActivityStatus {
+  COMPLETED
+  LOCKED
+  UNLOCKED
+}
+
+input LockUnlockActivityInput {
+  studentId: ID!
+  activityId: ID!
+  status: ActivityStatus!
 }
 
 directive @entity(embedded: Boolean) on OBJECT
@@ -68,5 +84,6 @@ input AdditionalEntityFields {
 
 schema {
   query: Query
+  mutation: Mutation
 }
 
