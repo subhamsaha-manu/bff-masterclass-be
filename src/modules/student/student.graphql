@@ -1,0 +1,14 @@
+extend type Query {
+    students: [Student!]!
+}
+
+type StudentActivity{
+    uuid: ID!
+    isCompleted: Boolean!
+}
+
+type Student {
+    uuid: ID!
+    name: String!
+    activities: [StudentActivity!]!
+}

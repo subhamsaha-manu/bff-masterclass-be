@@ -2,6 +2,7 @@ type Query {
   login(input: LoginUserInput!): AuthPayload!
   currentUser: User
   activitiesInClass(classId: ID!): [Activity!]!
+  students: [Student!]!
 }
 
 input LoginUserInput {
@@ -29,6 +30,17 @@ type Activity {
   description: String!
   completionPercentage: Int! @computed
   classId: String!
+}
+
+type StudentActivity {
+  uuid: ID!
+  isCompleted: Boolean!
+}
+
+type Student {
+  uuid: ID!
+  name: String!
+  activities: [StudentActivity!]!
 }
 
 directive @entity(embedded: Boolean) on OBJECT
