@@ -7,5 +7,4 @@ coverage
 schema.graphql
 generated/
 dist/
-.env
 .vercel
